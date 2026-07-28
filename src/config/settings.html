@@ -1,0 +1,245 @@
+<body onload="init('form');"><div id="spn" calss="spinner"></div>
+<div class="bog">
+	<div class="banner" id="banner"></div>
+	<textarea id="info_text" class="clean-right" disabled></textarea>
+
+
+	<form id="myPrefs" action="./postForm">
+
+	<div class="divider">Display Settings</div>
+
+	<label>Alarm Active (turn off to stop)</label>
+	<div class="cbWrapper">
+		<input type="hidden" value="off">
+		<input type="checkbox" data-uppost id="alarm_state" class="cbToggle">
+		<label class="switch" for="alarm_state"></label>
+	</div>
+
+	<label>Initial Screen (1-4)
+	<input type="text" data-up id="init_screen"></label>
+
+	<label>Flip Screen (180° Rotation)</label>
+	<div class="cbWrapper">
+		<input type="hidden" value="off">
+		<input type="checkbox" data-up id="flip_screen" class="cbToggle">
+		<label class="switch" for="flip_screen"></label>
+	</div>
+
+	<label>Toggle Panel Driver (ST7789,ILI9341)</label>
+	<div class="cbWrapper">
+		<input type="hidden" value="off">
+		<input type="checkbox" data-up id="panel_toggle" class="cbToggle">
+		<label class="switch" for="panel_toggle"></label>
+	</div>
+
+	<label>Clock Digits Color (1-31)
+	<input type="text" data-up id="clock_digits_col"></label>
+
+	<label>Small Temp Color (0=multicolor, 1-31)
+	<input type="text" data-up id="small_temp_col"></label>
+
+	<label>Big Temp Color (1-31)
+	<input type="text" data-up id="big_temp_col"></label>
+
+	<label>Hourglass BG Color (1-31)
+	<input type="text" data-up id="hourglass_bg_col"></label>
+
+	<label>Hourglass FG Color (1-31)
+	<input type="text" data-up id="hourglass_fg_col"></label>
+
+	<label>Hourglass (off = Numbers)</label>
+	<div class="cbWrapper">
+		<input type="hidden" value="off">
+		<input type="checkbox" data-up id="hourglass" class="cbToggle">
+		<label class="switch" for="hourglass"></label>
+	</div>
+
+	<label>24 Hour Format (off = 12h)</label>
+	<div class="cbWrapper">
+		<input type="hidden" value="off">
+		<input type="checkbox" data-up id="clock_24h" class="cbToggle">
+		<label class="switch" for="clock_24h"></label>
+	</div>
+
+	<label>Fahrenheit (off = Celsius)</label>
+	<div class="cbWrapper">
+		<input type="hidden" value="off">
+		<input type="checkbox" data-up id="fahrenheit" class="cbToggle">
+		<label class="switch" for="fahrenheit"></label>
+	</div>
+
+	<label>Weather Latitude (-90 to 90)
+	<input type="text" data-up id="latitude"></label>
+
+	<label>Weather Longitude (-180 to 180)
+	<input type="text" data-up id="lonlatitude"></label>
+
+	<label>Display Off After Seconds (0=Never, 10-300)
+	<input type="text" data-uppost id="display_off_sec"></label>
+
+	<label>Display Brightness % (1-100)
+	<input type="text" data-uppost id="brightness"></label>
+
+	<label>Night Brightness % (0=Off, 1-100)
+	<input type="text" data-uppost id="night_brightness"></label>
+
+	<label>Night From (HH:MM, From=To disables)
+	<input type="text" data-up id="night_from"></label>
+
+	<label>Night To (HH:MM)
+	<input type="text" data-up id="night_to"></label>
+
+	<label>Volume % (0-100, master)
+	<input type="text" data-uppost id="volume"></label>
+
+	<label>Alarm Sound (1-5)
+	<input type="text" data-uppost id="alarm_sound"></label>
+
+	<label>Alarm Time (HH:MM)
+	<input type="text" data-uppost id="alarm_time"></label>
+
+	<label>Alarm Days (Mo-Su)
+	<input type="text" data-uppost id="alarm_days"></label>
+
+	<label>Crypto Timeframe on Boot (1-9)
+	<input type="text" data-up id="init_timeframe"></label>
+	
+	<label>Crypto Symbol Color (0=multicolor, 1-31)
+	<input type="text" data-up id="symbol_col"></label>
+
+	<label>Crypto Price Color (0=multicolor, 1-31)
+	<input type="text" data-up id="price_col"></label>
+
+	<label>Crypto Date/Time Color (0=multicolor, 1-31)
+	<input type="text" data-up id="date_time_col"></label>
+
+	<label>Crypto Assets (Name,Symbol,Digits; max. 100 chars)
+	<input type="text" data-up id="crypto_assets"></label>
+
+	<label>Crypto Price Alerts (e.g. BTC&lt;5000)
+	<input type="text" data-uppost id="crypto_alerts"></label>
+
+	<label>Crypto Alert Sound (1-5)
+	<input type="text" data-uppost id="crypto_alert_sound"></label>
+
+	<label>Crypto Alert Color (1-31)
+	<input type="text" data-up id="crypto_alert_col"></label>
+
+	<div class="divider">WiFi / Network</div>
+
+	<label>WiFi SSID
+	<input type="text" data-up id="wifi_ssid"></label>
+
+	<label>WiFi Password (min. 8 chars)
+	<input type="password" data-up id="sta_wifi_passwd"></label>
+
+	<label>WiFi Check Interval (5-65535 sec)
+	<input type="text" data-uppost id="wifi_check_sec"></label>
+
+	<label>AP Fallback Attempts (0 = off)
+	<input type="text" data-up id="ap_fallback"></label>
+
+	<label>AP Mode</label>
+	<div class="cbWrapper">
+		<input type="hidden" value="off">
+		<input type="checkbox" data-up id="ap_only" class="cbToggle" activation-rules="[-40]">
+		<label class="switch" for="ap_only"></label>
+	</div>
+
+	<label>AP WiFi Password (min. 8 chars)
+	<input type="password" data-up id="ap_wifi_passwd"></label>
+
+	<label>AP Channel (1-13)
+	<input type="text" data-up id="ap_channel"></label>
+
+	<label>Static IP (Off = DHCP)</label>
+	<div class="cbWrapper">
+		<input type="hidden" value="off">
+		<input type="checkbox" data-up id="staticip_enabled" class="cbToggle" activation-rules="[41,42,43,44,45]">
+		<label class="switch" for="staticip_enabled"></label>
+	</div>
+
+	<label>IP Address (v4)
+	<input type="text" id="ip_address" data-up></label>
+
+	<label>Subnetmask
+	<input type="text" id="subnetmask" data-up></label>
+
+	<label>Gateway Address
+	<input type="text" id="gateway_address" data-up></label>
+
+	<label>DNS Server Address 1
+	<input type="text" id="dns1_address" data-up></label>
+
+	<label>DNS Server Address 2
+	<input type="text" id="dns2_address" data-up></label>
+
+	<div class="divider">WebPrefs Interface Settings</div>
+
+	<label>WebPrefs Login</label>
+	<div class="cbWrapper">
+		<input type="hidden" value="off">
+		<input type="checkbox" data-up id="web_auth" class="cbToggle" activation-rules="[47,48]">
+		<label class="switch" for="web_auth"></label>
+	</div>
+
+	<label>WebPrefs User
+	<input type="text" data-uppost id="web_user"></label>
+
+	<label>WebPrefs Password
+	<input type="password" data-uppost id="web_passwd"></label>
+
+	<!--label>WebPrefs Idle Timeout (1-60 min)
+	<input type="text" data-uppost id="web_idle_timeout"></label-->
+
+	<!--label>WiFi Off on Idle</label>
+	<div class="cbWrapper">
+		<input type="hidden" value="off">
+		<input type="checkbox" data-uppost id="disable_wifi" class="cbToggle">
+		<label class="switch" for="disable_wifi"></label>
+	</div-->
+<div class="divider">System Clock</div>
+
+	<label>NTP Sync</label>
+	<div class="cbWrapper">
+		<input type="hidden" value="off">
+		<input type="checkbox" data-uppost id="ntp_enabled" class="cbToggle" activation-rules="[50,-54]">
+		<label class="switch" for="ntp_enabled"></label>
+	</div>
+
+	<label>NTP Server</label>
+	<input type="text" data-uppost id="ntp_server">
+
+	<label>GMT offset (seconds)</label>
+	<input type="text" data-uppost id="gmt_offset">
+
+	<label>Daylight saving time (seconds)</label>
+	<input type="text" data-uppost id="daylight_offset">
+
+	<label>Posix Timezone Strings (empty to use GMT/DST)</label>
+	<input type="text" data-uppost id="tz_string">
+
+	<label>Date Time (YYYY-MM-DD HH:MM:SS)</label>
+	<input type="text" data-uppost id="date_time">
+
+	<div class="container">
+		<div class="column-center"><button type="submit">Save</button></div>
+		<div><button onclick="location.href='./done'" type="button">Done/Reboot</button></div>
+	</div>
+</form>
+
+<div class="divider">Firmware</div>
+<form id="upload">
+
+<div class="container">
+	<div><input type="text" value="" id="filename" disabled></div>
+	<div class="column-center"><button type="button" onclick="document.getElementById('firmware').click()">Browse File</button></div>
+</div>
+<div class="container">
+	<div class="column-center"><button type="button" onclick="uploadFile('firmware')">Update Firmware</button></div>
+	<div><button type="button" onclick="uploadFile('fs')">Update LittleFS</button></div>
+</div>
+<input type="file" style="visibility: hidden" id="firmware" name="firmware" onchange="document.getElementById('filename').value=this.files[0].name;" accept=".bin">
+</form>
+
+</div></body>

@@ -1,0 +1,13 @@
+{
+  "name": "RetroGfx",
+  "version": "0.1.0",
+  "description": "Retro 8x8 block graphics framework for ESP32 displays",
+  "frameworks": "arduino",
+  "platforms": "espressif32",
+  "dependencies": [
+    {
+      "name": "LovyanGFX",
+      "version": "^1.1.16"
+    }
+  ]
+}
