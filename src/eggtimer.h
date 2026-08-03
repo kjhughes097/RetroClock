@@ -47,22 +47,14 @@ inline constexpr EggButtonDef kButtons[BTN_COUNT] = {
     { "STOP",  red1,   grey3, 10, 9, 1, 3, 29, 0 },
 };
 
-// Compile-time bounding box (grid cells) enclosing every button at its absolute
-// position. Drives the widget's Slot rect so the touch-dispatch area is derived
-// from the SAME table as drawing and per-button hit-testing never hand-synced.
 constexpr Rect eggButtonRowSlot() {
-    uint8_t minX = 0xFF, minY = 0xFF, maxX = 0, maxY = 0;
+    //uint8_t minX = 0xFF, minY = 0xFF, maxX = 0, maxY = 0;
+    uint8_t w = 0, h = 0;
     for (const EggButtonDef& b : kButtons) {
-        uint8_t x0 = (uint8_t)(ROW_GX + b.gx);
-        uint8_t y0 = (uint8_t)(ROW_GY + b.gy);
-        uint8_t x1 = (uint8_t)(x0 + b.w);
-        uint8_t y1 = (uint8_t)(y0 + b.h);
-        if (x0 < minX) minX = x0;
-        if (y0 < minY) minY = y0;
-        if (x1 > maxX) maxX = x1;
-        if (y1 > maxY) maxY = y1;
+        if ((uint8_t)(b.gx + b.w) > w) w = (uint8_t)(b.gx + b.w);
+        if ((uint8_t)(b.gy + b.h) > h) h = (uint8_t)(b.gy + b.h);    
     }
-    return Rect{ minX, minY, (uint8_t)(maxX - minX), (uint8_t)(maxY - minY) };
+    return Rect{ ROW_GX, ROW_GY, w, h };
 }
 inline constexpr Rect EGGTIMER_BUTTON_SLOT = eggButtonRowSlot();
 
