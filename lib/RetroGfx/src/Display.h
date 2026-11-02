@@ -84,6 +84,11 @@ public:
     void displayOn();
     bool isDisplayOn() const { return _backlight > 0; }
 
+    // Panel-level color inversion (INVON/INVOFF): no pixel redraw needed, so it
+    // is cheap enough to toggle for a full-screen flash. Relative to the panel's
+    // configured invert setting, i.e. false = normal colors.
+    void setInvert(bool on);
+
     bool isReady() const;
 
 private:

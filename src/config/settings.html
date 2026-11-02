@@ -101,6 +101,16 @@
 	<label>Alarm Days (Mo-Su)
 	<input type="text" data-uppost id="alarm_days"></label>
 
+	<label>Timer Flash Seconds (0=Off, 1-600)
+	<input type="text" data-uppost id="timer_flash_sec"></label>
+
+	<label>Timer Flash Until Touched</label>
+	<div class="cbWrapper">
+		<input type="hidden" value="off">
+		<input type="checkbox" data-uppost id="timer_flash_hold" class="cbToggle" activation-rules="[-25]">
+		<label class="switch" for="timer_flash_hold"></label>
+	</div>
+
 	<label>Crypto Timeframe on Boot (1-9)
 	<input type="text" data-up id="init_timeframe"></label>
 	
@@ -142,7 +152,7 @@
 	<label>AP Mode</label>
 	<div class="cbWrapper">
 		<input type="hidden" value="off">
-		<input type="checkbox" data-up id="ap_only" class="cbToggle" activation-rules="[-40]">
+		<input type="checkbox" data-up id="ap_only" class="cbToggle" activation-rules="[-42]">
 		<label class="switch" for="ap_only"></label>
 	</div>
 
@@ -155,7 +165,7 @@
 	<label>Static IP (Off = DHCP)</label>
 	<div class="cbWrapper">
 		<input type="hidden" value="off">
-		<input type="checkbox" data-up id="staticip_enabled" class="cbToggle" activation-rules="[41,42,43,44,45]">
+		<input type="checkbox" data-up id="staticip_enabled" class="cbToggle" activation-rules="[43,44,45,46,47]">
 		<label class="switch" for="staticip_enabled"></label>
 	</div>
 
@@ -179,7 +189,7 @@
 	<label>WebPrefs Login</label>
 	<div class="cbWrapper">
 		<input type="hidden" value="off">
-		<input type="checkbox" data-up id="web_auth" class="cbToggle" activation-rules="[47,48]">
+		<input type="checkbox" data-up id="web_auth" class="cbToggle" activation-rules="[49,50]">
 		<label class="switch" for="web_auth"></label>
 	</div>
 
@@ -203,7 +213,7 @@
 	<label>NTP Sync</label>
 	<div class="cbWrapper">
 		<input type="hidden" value="off">
-		<input type="checkbox" data-uppost id="ntp_enabled" class="cbToggle" activation-rules="[50,-54]">
+		<input type="checkbox" data-uppost id="ntp_enabled" class="cbToggle" activation-rules="[52,-56]">
 		<label class="switch" for="ntp_enabled"></label>
 	</div>
 

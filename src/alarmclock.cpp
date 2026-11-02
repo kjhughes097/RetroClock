@@ -1,5 +1,6 @@
 #include "globals.h"
 #include "alarmclock.h"
+#include "eggtimer.h"
 #include <RetroGfx.h>
 
 extern Display display;
@@ -29,7 +30,10 @@ bool isValidDays(const char *s) {
 void cbAlarmSwitch() {
     // Runs on the async web-server task -> defer the actual stop to the loop task
     // (buzzer.tick()) so LEDC + player state are never mutated cross-core.
-    if (!dc.alarm_state) buzzer.requestStop();
+    if (!dc.alarm_state) {
+        buzzer.requestStop();
+        eggTimerRequestStopFlash();
+    }
 }
 
 void tickAlarmClock() {

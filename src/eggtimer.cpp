@@ -54,6 +54,65 @@ bool     s_holdRepeating = false;  // true once the 2 s threshold has been cross
 // read as a fresh M/S press by eggTimerHandleHold(). Cleared once the finger lifts.
 bool s_suppressHoldUntilRelease = false;
 
+// Screen flash at 00:00 (dc.timer_flash_sec / dc.timer_flash_hold). Runs
+// independently of the melody: it may outlast it (hold mode) or end first.
+constexpr uint32_t FLASH_TOGGLE_MS = 300;
+bool     s_flashActive     = false;
+bool     s_flashInverted   = false;
+uint32_t s_flashStartMs    = 0;
+uint32_t s_flashDurationMs = 0;      // 0 = until dismissed by a touch
+uint32_t s_flashToggleMs   = 0;
+// Set from the async web-server task (Alarm Active switch off); handled in the loop.
+volatile bool s_flashStopRequested = false;
+
+void startFlash() {
+    uint32_t durationMs = dc.timer_flash_hold ? 0 : (uint32_t)dc.timer_flash_sec * 1000UL;
+    if (!dc.timer_flash_hold && durationMs == 0) return;  // flashing disabled
+    uint32_t now          = millis();
+    s_flashActive         = true;
+    s_flashStopRequested  = false;
+    s_flashStartMs        = now;
+    s_flashToggleMs       = now;
+    s_flashDurationMs     = durationMs;
+    s_flashInverted       = true;
+    display.setInvert(true);
+}
+
+void stopFlash() {
+    if (!s_flashActive) return;
+    s_flashActive = false;
+    if (s_flashInverted) display.setInvert(false);
+    s_flashInverted = false;
+}
+
+void tickFlash() {
+    if (!s_flashActive) return;
+    uint32_t now = millis();
+    if (s_flashStopRequested ||
+        (s_flashDurationMs > 0 && now - s_flashStartMs >= s_flashDurationMs)) {
+        s_flashStopRequested = false;
+        stopFlash();
+        return;
+    }
+    if (now - s_flashToggleMs >= FLASH_TOGGLE_MS) {
+        s_flashToggleMs = now;
+        s_flashInverted = !s_flashInverted;
+        display.setInvert(s_flashInverted);
+    }
+}
+
+// The melody has ended (touch, cutoff or web switch): clear the sound state and
+// restore the originally started duration, ready to run again unchanged.
+void endAlarmSound() {
+    s_alarmActive = false;
+    if (s_hasOrig) {
+        s_min = s_origMin;
+        s_sec = s_origSec;
+    }
+    s_stopPressCount = 0;
+    s_stateGen++;
+}
+
 void incrementMinSec(uint8_t idx) {
     if (idx == BTN_M) s_min = (uint8_t)((s_min + 1) % 100);
     else               s_sec = (uint8_t)((s_sec + 1) % 60);
@@ -244,6 +303,8 @@ void eggTimerInit() {
     s_min            = s_sec = 0;
     s_running        = false;
     s_alarmActive    = false;
+    s_flashActive    = false;
+    s_flashInverted  = false;
     s_hasOrig        = false;
     s_stopPressCount = 0;
     // LEDC for the buzzer is configured once via buzzer.begin() in main.cpp.
@@ -260,32 +321,33 @@ void eggTimerTick() {
             buzzer.play(sel - 1, dc.volume, ALARM_CUTOFF_MS);
             s_stateGen++;
             display.displayOn();       // wake the screen if it was manually off
+            startFlash();
         }
     }
 
     // The buzzer owns playback and the safety cutoff; once it has stopped (touch
-    // or its own max-duration) clear the egg-timer's alarm state and restore the
-    // configured duration.
+    // or its own max-duration) clear the egg-timer's sound state and restore the
+    // configured duration. A flash in progress keeps going on its own schedule.
     if (s_alarmActive && !buzzer.isPlaying()) {
-        eggTimerSilenceAlarm();
+        endAlarmSound();
     }
+
+    tickFlash();
 }
 
 bool eggTimerAlarmActive() {
-    return s_alarmActive;
+    return s_alarmActive || s_flashActive;
 }
 
 void eggTimerSilenceAlarm() {
     buzzer.stop();                     // silence + release pin (no buzz, no heap)
-    s_alarmActive = false;
-    // Restore the originally started duration, ready to run again unchanged.
-    if (s_hasOrig) {
-        s_min = s_origMin;
-        s_sec = s_origSec;
-    }
-    s_stopPressCount          = 0;
+    stopFlash();
+    endAlarmSound();
     s_suppressHoldUntilRelease = true;
-    s_stateGen++;
+}
+
+void eggTimerRequestStopFlash() {
+    s_flashStopRequested = true;
 }
 
 void eggTimerHandleHold(bool isActiveScreen, bool touched, int16_t txPx, int16_t tyPx) {

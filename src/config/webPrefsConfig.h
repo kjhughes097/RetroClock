@@ -41,6 +41,8 @@ struct DeviceConfig {
     uint16_t brightness;     // display backlight, percent (1-100)
     uint16_t display_off_sec; // auto screen-off after N s of no touch (0 = never, else 10-300)
     uint16_t alarm_sound;     // egg-timer alarm melody: 1..5
+    uint16_t timer_flash_sec; // egg-timer: flash the screen for N s at 00:00 (0 = no flash)
+    bool     timer_flash_hold; // egg-timer: flash until touched (overrides timer_flash_sec)
     uint16_t volume;          // global master volume 0..100 % alarm, egg-timer & crypto alert (scales each song's own volume)
     uint16_t night_brightness; // brightness % inside the night window (0 = screen off)
     char     night_from[6];    // night window start "HH:MM"
@@ -131,6 +133,8 @@ inline const std::vector<WebPrefs::input_field> input_fields = {
     FIELD_UINT16(   volume,             "20",                0, 100,   nullptr),
     FIELD_STRING_VALID( alarm_time,     "07:00",             5,        nullptr,         isValidTime),
     FIELD_STRING_VALID( alarm_days,     "0000000",           7,        nullptr,         isValidDays),
+    FIELD_UINT16(   timer_flash_sec,    "10",                0, 600,   nullptr),
+    FIELD_CHECKBOX( timer_flash_hold,   "off",                         nullptr),
     FIELD_CHECKBOX( alarm_state,        "off",                         cbAlarmSwitch),
 
     FIELD_UINT16(   init_timeframe,     "1",                 1, 9,     nullptr),

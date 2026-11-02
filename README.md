@@ -159,6 +159,8 @@ Examples: bright red = **31**, medium blue = **10**, light grey = **3**.
 | Alarm Sound | Melody for the wake alarm and egg-timer (1–5). |
 | Alarm Time | Wake time for the alarm clock (HH:MM). |
 | Alarm Days | 7 digits Mon->Sun, 1 = on (e.g. `1111100` = weekdays). **All zeros = alarm off.** |
+| Timer Flash Seconds | How long the screen flashes when the egg timer reaches 00:00, on any screen (**0** = no flash, 1–600, default 10). A touch stops it early. |
+| Timer Flash Until Touched | When on, the screen keeps flashing at 00:00 until touched (overrides Timer Flash Seconds). |
 | Crypto Timeframe on Boot | Chart timeframe shown at boot on the Crypto screen (1–9 = 1H…1Y). |
 | Crypto Symbol Color | Colour of the asset symbols (0 = multicolor, 1–31). |
 | Crypto Price Color | Colour of the prices (0 = multicolor, 1–31). |

@@ -242,8 +242,8 @@ void loop() {
     }
 
     // Auto-off after inactivity (dc.display_off_sec: 0 = never, otherwise 10-300 s;
-    // values below 10 are treated as 10). Suppressed while the alarm sounds so the
-    // timer screen stays visible.
+    // values below 10 are treated as 10). Suppressed while the timer alarm sounds
+    // or flashes so the screen stays visible.
     uint16_t idleSec = dc.display_off_sec;
     if (idleSec > 0 && idleSec < 10) idleSec = 10;
     if (idleSec > 0 && display.isDisplayOn() && !eggTimerAlarmActive() && !buzzer.isPlaying() &&

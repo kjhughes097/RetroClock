@@ -200,6 +200,11 @@ void Display::setBrightness(uint8_t level) {
 void Display::displayOff() { setBrightness(0); }
 void Display::displayOn()  { setBrightness(_lastOnLevel > 0 ? _lastOnLevel : 255); }
 
+void Display::setInvert(bool on) {
+    if (!_tft) return;
+    static_cast<lgfx::LGFX_Device*>(_tft)->invertDisplay(on);
+}
+
 // The ILI9341 CYDs have their glass mounted 180 deg to the ST7789 ones, so the
 // same rotation setting has to be flipped for them (1 <-> 3, 0 <-> 2). Callers
 // keep passing the configured value, the touch offset above compensates.

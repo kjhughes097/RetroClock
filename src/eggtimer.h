@@ -10,6 +10,9 @@
 // auto-repeat (accelerating) while held, so you don't need 100 taps to reach 99.
 // At 00:00 the speaker (SPEAKER_PIN) plays Beethoven's "Für Elise" on a loop
 // until the screen is touched, or for a maximum of 5 minutes if never touched.
+// It also flashes the whole screen (panel color inversion), whatever screen is
+// shown: for dc.timer_flash_sec seconds (0 = off), or until touched when
+// dc.timer_flash_hold is on. A touch dismisses sound and flash together.
 
 // === Button row layout single source of truth ===
 // The geometry below is shared by THREE consumers so they can never drift apart:
@@ -70,11 +73,15 @@ void eggTimerTick();
 // true only while the egg-timer screen is the one currently shown.
 void eggTimerHandleHold(bool isActiveScreen, bool touched, int16_t txPx, int16_t tyPx);
 
-// True while the 00:00 alarm is sounding. main.cpp checks this before
-// dispatching a touch to screensHandleTouch() so any tap silences the alarm
-// instead of triggering a button/screen-switch underneath it.
+// True while the 00:00 alarm is sounding or the screen is flashing. main.cpp
+// checks this before dispatching a touch to screensHandleTouch() so any tap
+// dismisses the alarm instead of triggering a button/screen-switch underneath it.
 bool eggTimerAlarmActive();
-void eggTimerSilenceAlarm();
+void eggTimerSilenceAlarm();  // stops sound + flash (loop task only)
+
+// Thread-safe: asks the loop task to stop the flash on its next tick (used by
+// the WebPrefs "Alarm Active" switch, which runs on the async web-server task).
+void eggTimerRequestStopFlash();
 
 extern Widget& widget_eggtimer_display;
 extern Widget& widget_eggtimer_buttons;  // single full-width row: M | S | START | STOP
